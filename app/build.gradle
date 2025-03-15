@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'xyz.wystudio.qistudio.program.artcodeannotation'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "xyz.wystudio.qistudio.program.artcodeannotation"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    sourceSets {
+        main {
+            resources {
+                srcDirs 'src/main/resources'
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../keys/wystudio.jks")
+            storePassword "wy200060317"
+            keyAlias "wystudio"
+            keyPassword "wy200060317"
+        }
+        debug {
+            storeFile file("../keys/wystudio.jks")
+            storePassword "wy200060317"
+            keyAlias "wystudio"
+            keyPassword "wy200060317"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.configureEach { variant ->
+        // 设置输出文件名
+        variant.outputs.configureEach { output ->
+            def newFileName = "ArtCodeAnnotationPlugin-${variant.versionName}.rmx"
+            output.outputFileName = newFileName // 输出文件名
+        }
+    }
+}
+
+dependencies {
+    compileOnly fileTree(dir: '../libs-only', include: '*.jar')
+}

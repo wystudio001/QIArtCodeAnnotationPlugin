@@ -1,0 +1,23 @@
+{
+  "id": "xyz.wystudio.qistudio.program.artcodeannotation",
+  "name": "艺术注释插件",
+  "engine": "plugin",
+  "description": "",
+  "versionCode": 1,
+  "versionName": "1.0.0",
+  "minSupport": 1,
+  "vendor": {
+    "name": "WYstudio",
+    "url": "https://blog.wystudio.xyz/",
+    "email": "wystudio001@qq.com"
+  },
+  "extension": [
+    {
+      "point": "application",
+      "class": "xyz.wystudio.qistudio.program.artcodeannotation.App"
+    },{
+      "point": "platform.settingsBuilder",
+      "class": "xyz.wystudio.qistudio.program.artcodeannotation.WSettingManager"
+    }
+  ]
+}
