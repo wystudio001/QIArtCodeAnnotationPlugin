@@ -1,0 +1,87 @@
+project.ext.platform = "Tiecode"
+project.ext.platformName = "结绳"
+project.ext.platformPkg = "com.tiecode.develop"
+
+static def isWindows() {
+    return org.gradle.internal.os.OperatingSystem.current().isWindows()
+}
+
+def isPlatformInstalled() {
+    try {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream()
+        exec {
+            commandLine "adb", "shell", "pm", "list", "packages", "|", "grep", platformPkg
+            standardOutput = stream
+        }
+        def result = stream.toString()
+        stream.close()
+        return (result.contains(platformPkg))
+    } catch (ignored) {
+        return false
+    }
+}
+
+
+def rebootPlatform() {
+    exec {
+        commandLine "adb", "shell", "am", "force-stop", platformPkg
+    }
+    exec {
+        commandLine "adb", "shell", "am", "start", "-n", "$platformPkg/com.qiplat.develop.page.module.splash.Splash"
+    }
+}
+
+def isPluginInstalled(pluginInstallDir) {
+    ByteArrayOutputStream stream = new ByteArrayOutputStream()
+    exec {
+        commandLine "adb", "shell", "if [ -d $pluginInstallDir ]; then echo Yes; else echo No; fi"
+        standardOutput = stream
+    }
+    def result = stream.toString()
+    stream.close()
+    return (result.contains("Yes"))
+}
+
+def installPlugin(pluginFile) {
+    def pushDir = "/sdcard"
+    exec {
+        commandLine 'adb', "push", pluginFile.getPath(), pushDir + "/${pluginFile.name}"
+    }
+    exec {
+        commandLine "adb", "shell", "am", "start", "-n",
+                "$platformPkg/com.qiplat.develop.page.module.splash.Splash",
+                "-d", "file://$pushDir/${pluginFile.name}"
+    }
+}
+
+def updatePlugin(phonePluginInstallDir, pluginFile) {
+    exec {
+        commandLine 'adb', "push", pluginFile.getPath(), phonePluginInstallDir
+    }
+}
+
+def pushPlugin(phonePluginInstallDir, pluginFile) {
+    if (!isPlatformInstalled()) {
+        System.err.println("未安装$platformName")
+        return
+    }
+    if (isPluginInstalled(phonePluginInstallDir)) {
+        println "正在更新插件..."
+        updatePlugin(phonePluginInstallDir, pluginFile)
+        rebootPlatform()
+    } else {
+        println "正在进行首次安装插件..."
+        installPlugin(pluginFile)
+    }
+}
+
+android.applicationVariants.all { variant ->
+    variant.assembleProvider.configure {
+        it.doLast {
+            variant.outputs.all {
+                def pluginInstallDir = "/sdcard/$platform/Programs/${project.android.defaultConfig.applicationId}"
+                pushPlugin(pluginInstallDir, outputFile)
+            }
+        }
+    }
+}

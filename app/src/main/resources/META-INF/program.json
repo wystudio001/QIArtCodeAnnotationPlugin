@@ -2,7 +2,7 @@
   "id": "xyz.wystudio.qistudio.program.artcodeannotation",
   "name": "艺术注释插件",
   "engine": "plugin",
-  "description": "",
+  "description": "写注释也是一种学问！",
   "versionCode": 1,
   "versionName": "1.0.0",
   "minSupport": 1,
@@ -17,7 +17,10 @@
       "class": "xyz.wystudio.qistudio.program.artcodeannotation.App"
     },{
       "point": "platform.settingsBuilder",
-      "class": "xyz.wystudio.qistudio.program.artcodeannotation.WSettingManager"
+      "class": "xyz.wystudio.qistudio.program.artcodeannotation.settings.WSettingManager"
+    },{
+      "point": "domain.menu.editor.code",
+      "class": "xyz.wystudio.qistudio.program.artcodeannotation.menu.AddAnnotationMenuAction"
     }
   ]
 }

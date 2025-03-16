@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+apply from: '../push-plugin.gradle'
+
 android {
     namespace 'xyz.wystudio.qistudio.program.artcodeannotation'
     compileSdk 34
@@ -45,6 +47,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
