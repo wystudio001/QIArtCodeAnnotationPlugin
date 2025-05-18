@@ -4,7 +4,7 @@
   "engine": "plugin",
   "description": "写注释也是一种学问！",
   "versionCode": 1,
-  "versionName": "1.0.0",
+  "versionName": "1.0.1",
   "minSupport": 1,
   "vendor": {
     "name": "WYstudio",
@@ -21,6 +21,9 @@
     },{
       "point": "domain.menu.editor.code",
       "class": "xyz.wystudio.qistudio.program.artcodeannotation.menu.AddAnnotationMenuAction"
+    },{
+      "point": "domain.event.window",
+      "class": "xyz.wystudio.qistudio.program.artcodeannotation.event.AnnotationWindowEvent"
     }
   ]
 }

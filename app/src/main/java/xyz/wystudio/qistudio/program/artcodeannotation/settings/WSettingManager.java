@@ -24,7 +24,7 @@ public class WSettingManager implements SettingsBuilder {
         });
 
         ISettingGroupView item2 = page.getOrAddSettingGroup("关于");
-        item2.addArrowItem("版本号", "注释也是一种艺术！","1.0.0", new View.OnClickListener() {
+        item2.addArrowItem("版本号", "注释也是一种艺术！","1.0.1", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -44,7 +44,7 @@ public class WSettingManager implements SettingsBuilder {
 
     @Override
     public AsSubSettingsInfo getAsSubSettingsInfo() {
-        return new AsSubSettingsInfo("插件设置","艺术注释插件","配置相关设置");
+        return new AsSubSettingsInfo("插件设置","艺术注释插件","艺术来源于生活！");
     }
 
     @Override
